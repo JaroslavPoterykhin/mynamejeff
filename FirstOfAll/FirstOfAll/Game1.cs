@@ -16,6 +16,7 @@ namespace FirstOfAll
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            // MANAMEJEEEEEEEEEEEEEEEEF
         }
 
         /// <summary>
