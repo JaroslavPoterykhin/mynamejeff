@@ -28,8 +28,19 @@ namespace GameEngine
         {
             texture = text;
         }
+        public void Check_Boundaries(int width, int height)
+        {
+            if ((pos.X <= 0))
+                pos.X = 0;
+            if ((pos.X + texture.Width) >= width)
+                pos.X = width - texture.Width;
+            if ((pos.Y <= 0))
+                pos.Y = 0;
+            if ((pos.Y + texture.Height) >= height)
+                pos.Y = height - texture.Height;
+        }
 
-        public void Update()
+        public void Move()
         {
             MouseState state = Mouse.GetState();
             Vector2 des = new Vector2(0, 0);

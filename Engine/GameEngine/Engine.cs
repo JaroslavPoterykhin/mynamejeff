@@ -7,6 +7,9 @@ namespace GameEngine
 {
     public class Engine
     {
+        int width;
+        int height;
+
         Circle[] circle;
         int circle_amount;
 
@@ -14,7 +17,7 @@ namespace GameEngine
         private const float steer_force = 0.5f;
         private const float approach_radius = 100.0f;
 
-        public Engine(int amount)
+        public Engine(int amount, int width, int height)
         {
             circle_amount = amount;
             circle = new Circle[circle_amount];
@@ -22,7 +25,8 @@ namespace GameEngine
             {
                 circle[i] = new Circle();
             }
-
+            this.width = width;
+            this.height = height;
         }
 
         public void LoadContent(Texture2D text)
@@ -35,10 +39,11 @@ namespace GameEngine
 
         public void Update()
         {
-
             for (int i = 0; i < circle_amount; ++i)
             {
-                circle[i].Update();
+                circle[i].Check_Boundaries(width, height);
+                circle[i].Move();
+                
             }
         }
 
