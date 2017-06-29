@@ -5,42 +5,68 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameEngine
 {
-    public class Circle
+    public class Character
     {
         Texture2D texture;
-        SpriteBatch spriteBatch;
-
         private Vector2 pos;
         private Vector2 vel;
         private Vector2 acc;
+
+        public Vector2 Position     { get { return pos; } }
+        public Vector2 Velocity     { get { return vel; } }
+        public Vector2 Acceleration { get { return acc; } }
+
         const float max_vel = 10.0f;
-        const float steer_force = 0.5f;
+        const float steer_force = 0.1f;
         const float approach_radius = 100.0f;
 
-        public Circle()
+        public Character()
         {
             pos = new Vector2(0.0f, 0.0f);
             vel = new Vector2(0, 0);
             acc = new Vector2(0, 0);
         }
 
+        public void set_new_position(float x, float y)
+        {
+            pos.X = x;
+            pos.Y = y;
+        }
+
         public void LoadContent(Texture2D text)
         {
             texture = text;
         }
-        public void Check_Boundaries(int width, int height)
+        public void check_screen_collision(int width, int height)
         {
-            if ((pos.X <= 0))
-                pos.X = 0;
-            if ((pos.X + texture.Width) >= width)
-                pos.X = width - texture.Width;
-            if ((pos.Y <= 0))
-                pos.Y = 0;
-            if ((pos.Y + texture.Height) >= height)
-                pos.Y = height - texture.Height;
+            if (pos.X <= 0 || (pos.X + texture.Width  >= width))
+                vel.X *= -1;
+            if (pos.Y <= 0 || (pos.Y + texture.Height >= height))
+                vel.Y *= -1;
+        }
+        public void check_character_collision(Character player)
+        {
+            if ((pos.X + texture.Width) < player.Position.X) return;
+            else if (pos.X > (player.Position.X + texture.Width)) return;
+            else if ((pos.Y + texture.Height) < player.Position.Y) return;
+            else if (pos.Y > (player.Position.Y + texture.Height)) return;
+
+            Vector2 jump_vec;
+            jump_vec.X = pos.X - player.Position.X;
+            jump_vec.Y = pos.Y - player.Position.Y;
+
+            if (jump_vec.Length() > max_vel)
+            {
+                jump_vec.Normalize();
+                Vector2.Multiply(ref jump_vec, max_vel, out jump_vec);
+            }
+
+            acc = jump_vec;
+            Vector2.Add(ref vel, ref acc, out vel);
+            Vector2.Add(ref pos, ref vel, out pos);
         }
 
-        public void Move()
+        public void mouse_attach()
         {
             MouseState state = Mouse.GetState();
             Vector2 des = new Vector2(0, 0);
@@ -82,7 +108,7 @@ namespace GameEngine
             Vector2.Add(ref pos, ref vel, out pos);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void render(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, pos);
         }

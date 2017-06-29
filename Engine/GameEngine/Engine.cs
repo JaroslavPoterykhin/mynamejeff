@@ -10,49 +10,49 @@ namespace GameEngine
         int width;
         int height;
 
-        Circle[] circle;
-        int circle_amount;
+        Character player1;
+        Character player2;
 
         private const float max_vel = 10.0f;
-        private const float steer_force = 0.5f;
+        private const float steer_force = 0.1f;
         private const float approach_radius = 100.0f;
 
-        public Engine(int amount, int width, int height)
+        public Engine(int width, int height)
         {
-            circle_amount = amount;
-            circle = new Circle[circle_amount];
-            for (int i = 0; i < circle_amount; i++)
-            {
-                circle[i] = new Circle();
-            }
             this.width = width;
             this.height = height;
+
+            Random rand = new Random();
+
+            player1 = new Character();
+            player2 = new Character();
         }
 
         public void LoadContent(Texture2D text)
         {
-            for (int i = 0; i < circle_amount; ++i)
-            {
-                circle[i].LoadContent(text);
-            }
+            player1.LoadContent(text);
+            player2.LoadContent(text);
+
+            Random rand = new Random();
+            player1.set_new_position(rand.Next(width), rand.Next(height));
+            player2.set_new_position(rand.Next(width), rand.Next(height));
         }
 
         public void Update()
         {
-            for (int i = 0; i < circle_amount; ++i)
-            {
-                circle[i].Check_Boundaries(width, height);
-                circle[i].Move();
-                
-            }
+            player1.check_screen_collision(width, height);
+            player1.mouse_attach();
+            player1.check_character_collision(player2);
+
+            player2.check_screen_collision(width, height);
+            player2.mouse_attach();
+            player2.check_character_collision(player1);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < circle_amount; ++i)
-            {
-                circle[i].Draw(spriteBatch);
-            }
+            player1.render(spriteBatch);
+            player2.render(spriteBatch);
         }
     }
 }

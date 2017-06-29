@@ -19,7 +19,7 @@ namespace FirstOfAll
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             // MANAMEJEEEEEEEEEEEEEEEEF
-            
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace FirstOfAll
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            engine = new Engine(1, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            engine = new Engine(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             base.Initialize();
         }
 
@@ -43,7 +43,7 @@ namespace FirstOfAll
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            engine.LoadContent(Content.Load<Texture2D>("Engine/bloom_2"));
+            engine.LoadContent(Content.Load<Texture2D>("Engine/circle"));
             // TODO: use this.Content to load your game content here
         }
 
