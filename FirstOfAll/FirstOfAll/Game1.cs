@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using 
 
 namespace FirstOfAll
 {
@@ -14,6 +15,7 @@ namespace FirstOfAll
 
         public Game1()
         {
+            SpriteBatch[] my = new SpriteBatch[10];
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             // MANAMEJEEEEEEEEEEEEEEEEF
