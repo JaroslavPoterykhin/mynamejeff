@@ -12,15 +12,14 @@ namespace FirstOfAll
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+        Engine engine;
 
         public Game1()
         {
-            SpriteBatch[] my = new SpriteBatch[10];
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             // MANAMEJEEEEEEEEEEEEEEEEF
-
+            engine = new Engine(1);
         }
 
         /// <summary>
@@ -32,7 +31,7 @@ namespace FirstOfAll
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+
             base.Initialize();
         }
 
@@ -44,7 +43,7 @@ namespace FirstOfAll
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            engine.LoadContent(Content.Load<Texture2D>("Engine/bloom_2"));
             // TODO: use this.Content to load your game content here
         }
 
@@ -68,7 +67,7 @@ namespace FirstOfAll
                 Exit();
 
             // TODO: Add your update logic here
-
+            engine.Update();
             base.Update(gameTime);
         }
 
@@ -81,7 +80,9 @@ namespace FirstOfAll
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            engine.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

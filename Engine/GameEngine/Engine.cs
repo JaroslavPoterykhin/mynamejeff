@@ -7,7 +7,6 @@ namespace GameEngine
 {
     public class Engine
     {
-        SpriteBatch spriteBatch;
         Circle[] circle;
         int circle_amount;
 
@@ -15,15 +14,15 @@ namespace GameEngine
         private const float steer_force = 0.5f;
         private const float approach_radius = 100.0f;
 
-        public Engine(int amount, SpriteBatch _spriteBatch)
+        public Engine(int amount)
         {
             circle_amount = amount;
-            for (int i = 0; i < circle_amount; ++i)
+            circle = new Circle[circle_amount];
+            for (int i = 0; i < circle_amount; i++)
             {
                 circle[i] = new Circle();
             }
 
-            spriteBatch = _spriteBatch;
         }
 
         public void LoadContent(Texture2D text)
@@ -34,7 +33,7 @@ namespace GameEngine
             }
         }
 
-        public void Update(int index)
+        public void Update()
         {
 
             for (int i = 0; i < circle_amount; ++i)
@@ -43,7 +42,7 @@ namespace GameEngine
             }
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < circle_amount; ++i)
             {
