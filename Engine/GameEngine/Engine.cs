@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Engine
+namespace GameEngine
 {
-    class Engine
+    public class Engine
     {
         SpriteBatch spriteBatch;
         Circle[] circle;
