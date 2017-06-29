@@ -12,6 +12,7 @@ namespace GameEngine
 
         Character player1;
         Character player2;
+        bool collision = false;
 
         private const float max_vel = 10.0f;
         private const float steer_force = 0.1f;
@@ -28,10 +29,13 @@ namespace GameEngine
             player2 = new Character();
         }
 
-        public void LoadContent(Texture2D text)
+        public void LoadContent(Texture2D text1, Texture2D text2)
         {
-            player1.LoadContent(text);
-            player2.LoadContent(text);
+            player1.load_default_texture(text1);
+            player1.load_collide_texture(text2);
+
+            player2.load_default_texture(text1);
+            player2.load_collide_texture(text2);
 
             Random rand = new Random();
             player1.set_new_position(rand.Next(width), rand.Next(height));
@@ -42,17 +46,31 @@ namespace GameEngine
         {
             player1.check_screen_collision(width, height);
             player1.mouse_attach();
-            player1.check_character_collision(player2);
-
             player2.check_screen_collision(width, height);
             player2.mouse_attach();
+
+
+            if (player1.check_character_collision(player2))
+                if (collision == false)
+                    collision = true;
+                else
+                    collision = false;
             player2.check_character_collision(player1);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            player1.render(spriteBatch);
-            player2.render(spriteBatch);
+            if (!collision)
+            {
+                player1.render_default(spriteBatch);
+                player2.render_default(spriteBatch);
+            }
+            else
+            {
+                player1.render_collision(spriteBatch);
+                player2.render_collision(spriteBatch);
+            }
+                
         }
     }
 }

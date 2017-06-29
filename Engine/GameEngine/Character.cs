@@ -7,7 +7,8 @@ namespace GameEngine
 {
     public class Character
     {
-        Texture2D texture;
+        Texture2D texture1;
+        Texture2D texture2;
         private Vector2 pos;
         private Vector2 vel;
         private Vector2 acc;
@@ -33,23 +34,28 @@ namespace GameEngine
             pos.Y = y;
         }
 
-        public void LoadContent(Texture2D text)
+        public void load_default_texture(Texture2D text)
         {
-            texture = text;
+            texture1 = text;
+        }
+        public void load_collide_texture(Texture2D text)
+        {
+            texture2 = text;
         }
         public void check_screen_collision(int width, int height)
         {
-            if (pos.X <= 0 || (pos.X + texture.Width  >= width))
+            //TODO: This is ugly looking stuff I TELL U WHAT
+            if (pos.X <= 0 || (pos.X + texture1.Width  >= width))
                 vel.X *= -1;
-            if (pos.Y <= 0 || (pos.Y + texture.Height >= height))
+            if (pos.Y <= 0 || (pos.Y + texture1.Height >= height))
                 vel.Y *= -1;
         }
-        public void check_character_collision(Character player)
+        public bool check_character_collision(Character player)
         {
-            if ((pos.X + texture.Width) < player.Position.X) return;
-            else if (pos.X > (player.Position.X + texture.Width)) return;
-            else if ((pos.Y + texture.Height) < player.Position.Y) return;
-            else if (pos.Y > (player.Position.Y + texture.Height)) return;
+            if ((pos.X + texture1.Width) < player.Position.X) return false;
+            else if (pos.X > (player.Position.X + texture1.Width)) return false;
+            else if ((pos.Y + texture1.Height) < player.Position.Y) return false;
+            else if (pos.Y > (player.Position.Y + texture1.Height)) return false;
 
             Vector2 jump_vec;
             jump_vec.X = pos.X - player.Position.X;
@@ -64,14 +70,16 @@ namespace GameEngine
             acc = jump_vec;
             Vector2.Add(ref vel, ref acc, out vel);
             Vector2.Add(ref pos, ref vel, out pos);
+
+            return true;
         }
 
         public void mouse_attach()
         {
             MouseState state = Mouse.GetState();
             Vector2 des = new Vector2(0, 0);
-            des.X = state.X - (pos.X + (texture.Width/2));
-            des.Y = state.Y - (pos.Y + (texture.Height/2));
+            des.X = state.X - (pos.X + (texture1.Width/2));
+            des.Y = state.Y - (pos.Y + (texture1.Height/2));
 
             float distance = des.Length();
             des.Normalize();
@@ -108,9 +116,13 @@ namespace GameEngine
             Vector2.Add(ref pos, ref vel, out pos);
         }
 
-        public void render(SpriteBatch spriteBatch)
+        public void render_default(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, pos);
+            spriteBatch.Draw(texture1, pos);
+        }
+        public void render_collision(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture2, pos);
         }
     }
 }

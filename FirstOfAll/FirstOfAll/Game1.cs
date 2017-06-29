@@ -43,7 +43,8 @@ namespace FirstOfAll
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            engine.LoadContent(Content.Load<Texture2D>("Engine/circle"));
+            engine.LoadContent(Content.Load<Texture2D>("Engine/circle1"),
+                Content.Load<Texture2D>("Engine/circle2"));
             // TODO: use this.Content to load your game content here
         }
 
