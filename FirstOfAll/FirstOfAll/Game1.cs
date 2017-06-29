@@ -12,6 +12,7 @@ namespace FirstOfAll
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        
 
         public Game1()
         {
@@ -19,6 +20,7 @@ namespace FirstOfAll
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             // MANAMEJEEEEEEEEEEEEEEEEF
+
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace FirstOfAll
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            
             base.Initialize();
         }
 
