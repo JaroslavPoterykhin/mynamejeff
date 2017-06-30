@@ -12,6 +12,7 @@ namespace GameEngine
         private Vector2 pos;
         private Vector2 vel;
         private Vector2 acc;
+        float angle = 0;
 
         public Vector2 Position     { get { return pos; } }
         public Vector2 Velocity     { get { return vel; } }
@@ -80,6 +81,7 @@ namespace GameEngine
             Vector2 des = new Vector2(0, 0);
             des.X = state.X - (pos.X + (texture1.Width/2));
             des.Y = state.Y - (pos.Y + (texture1.Height/2));
+            angle = (float)Math.Atan2(des.Y, des.X);
 
             float distance = des.Length();
             des.Normalize();
@@ -123,6 +125,33 @@ namespace GameEngine
         public void render_collision(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture2, pos);
+        }
+
+        public void render_mouse_thread(SpriteBatch spriteBatch, Texture2D text)
+        {
+            MouseState state = Mouse.GetState();
+
+            Vector2 source = new Vector2();
+            source.X = (pos.X + texture1.Width / 2);
+            source.Y = (pos.Y + texture1.Height / 2);
+
+            Vector2 target = new Vector2();
+            target.X = state.X - source.X;
+            target.Y = state.Y - source.Y;
+
+            render_line(spriteBatch, text, source, target);
+        }
+
+        private void render_line(SpriteBatch spriteBatch, Texture2D text, 
+                                          Vector2 source, Vector2 target)
+        {
+            var length = target.Length();
+            var line_angle = (float)Math.Atan2(target.Y, target.X);
+            var origin = new Vector2(0.0f, 0.0f);
+            var scale = new Vector2(length, 2f);
+
+            spriteBatch.Draw(text, source, null, Color.Red, line_angle, origin, scale,
+                SpriteEffects.None, 0);
         }
     }
 }
