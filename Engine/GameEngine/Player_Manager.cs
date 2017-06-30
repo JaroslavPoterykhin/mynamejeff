@@ -41,9 +41,6 @@ namespace GameEngine
 	}
 
 	public void update(){
-	    int width = GraphicsDeviceManager.DefaultBackBufferWidth;
-	    int heigth = GraphicsDeviceManager.DefaultBackBufferWidth;
-	    
 	    for (int i = 0; i < player.Length; i++) {
 		player[i].check_screen_collision();
 		player[i].mouse_attach();

@@ -31,7 +31,7 @@ namespace FirstOfAll
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            engine = new Engine(2, graphics.GraphicsDevice.Viewport.Width,
+            engine = new Engine(1, graphics.GraphicsDevice.Viewport.Width,
                                    graphics.GraphicsDevice.Viewport.Height);
             base.Initialize();
         }

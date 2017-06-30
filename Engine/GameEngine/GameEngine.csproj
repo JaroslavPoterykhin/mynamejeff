@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Entity_Manager.cs" />
     <Compile Include="Player_Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -7,9 +7,9 @@ namespace GameEngine
 {
     public class Character
     {
-        private Vector2 pos;
-        private Vector2 vel;
-        private Vector2 acc;
+        Vector2 pos;
+        Vector2 vel;
+        Vector2 acc;
         float angle = 0;
 
         public Vector2 Position     { get { return pos; } }
@@ -23,7 +23,6 @@ namespace GameEngine
         public Character()
         {
 	    Random rand = new Random();
-	    
             pos = new Vector2(rand.Next(Engine.window_width),rand.Next(Engine.window_heigth));
             vel = new Vector2(0, 0);
             acc = new Vector2(0, 0);
