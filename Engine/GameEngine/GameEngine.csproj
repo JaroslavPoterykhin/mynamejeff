@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="Player_Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

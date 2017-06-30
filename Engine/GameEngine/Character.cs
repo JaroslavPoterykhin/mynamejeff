@@ -7,8 +7,6 @@ namespace GameEngine
 {
     public class Character
     {
-        Texture2D texture1;
-        Texture2D texture2;
         private Vector2 pos;
         private Vector2 vel;
         private Vector2 acc;
@@ -24,7 +22,9 @@ namespace GameEngine
 
         public Character()
         {
-            pos = new Vector2(0.0f, 0.0f);
+	    Random rand = new Random();
+	    
+            pos = new Vector2(rand.Next(Engine.window_width),rand.Next(Engine.window_heigth));
             vel = new Vector2(0, 0);
             acc = new Vector2(0, 0);
         }
@@ -34,25 +34,19 @@ namespace GameEngine
             pos.X = x;
             pos.Y = y;
         }
-
-        public void load_default_texture(Texture2D text)
+        public void check_screen_collision()
         {
-            texture1 = text;
-        }
-        public void load_collide_texture(Texture2D text)
-        {
-            texture2 = text;
-        }
-        public void check_screen_collision(int width, int height)
-        {
+	    int width = Engine.window_width;
+	    int heigth = Engine.window_heigth;
+	    
             if (pos.X <= 0)
             {
                 pos.X = 0;
                 vel.X *= -1;
             }
-            else if (pos.X + texture1.Width >= width)
+            else if (pos.X + Player_Manager.texture_width >= width)
             {
-                pos.X = width - texture1.Width;
+                pos.X = width - Player_Manager.texture_width;
                 vel.X *= -1;
             }
             if (pos.Y <= 0)
@@ -60,19 +54,22 @@ namespace GameEngine
                 pos.Y = 0;
                 vel.Y *= -1;
             }
-            else if (pos.Y + texture1.Height >= height)
+            else if (pos.Y + Player_Manager.texture_heigth >= heigth)
             {
-                pos.Y = height - texture1.Height;
+                pos.Y = heigth - Player_Manager.texture_heigth;
                 vel.Y *= -1;
             }
                 
         }
         public bool check_character_collision(Character player)
         {
-            if ((pos.X + texture1.Width) < player.Position.X) return false;
-            else if (pos.X > (player.Position.X + texture1.Width)) return false;
-            else if ((pos.Y + texture1.Height) < player.Position.Y) return false;
-            else if (pos.Y > (player.Position.Y + texture1.Height)) return false;
+	    int t_width = Player_Manager.texture_width;
+	    int t_height = Player_Manager.texture_heigth;
+
+            if ((pos.X + t_width) < player.Position.X) return false;
+            else if (pos.X > (player.Position.X + t_width)) return false;
+            else if ((pos.Y + t_height) < player.Position.Y) return false;
+            else if (pos.Y > (player.Position.Y + t_height)) return false;
 
             Vector2 jump_vec;
             jump_vec.X = pos.X - player.Position.X;
@@ -94,9 +91,12 @@ namespace GameEngine
         public void mouse_attach()
         {
             MouseState state = Mouse.GetState();
+	    int t_width = Player_Manager.texture_width;
+	    int t_height = Player_Manager.texture_heigth;
+	    
             Vector2 des = new Vector2(0, 0);
-            des.X = state.X - (pos.X + (texture1.Width/2));
-            des.Y = state.Y - (pos.Y + (texture1.Height/2));
+            des.X = state.X - (pos.X + (t_width/2));
+            des.Y = state.Y - (pos.Y + (t_height/2));
             angle = (float)Math.Atan2(des.Y, des.X);
 
             float distance = des.Length();
@@ -134,22 +134,17 @@ namespace GameEngine
             Vector2.Add(ref pos, ref vel, out pos);
         }
 
-        public void render_default(SpriteBatch spriteBatch)
+        public void render_default(SpriteBatch spriteBatch, Texture2D texture)
         {
-            spriteBatch.Draw(texture1, pos);
+            spriteBatch.Draw(texture, pos);
         }
-        public void render_collision(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture2, pos);
-        }
-
         public void render_mouse_thread(SpriteBatch spriteBatch, Texture2D text)
         {
             MouseState state = Mouse.GetState();
 
             Vector2 source = new Vector2();
-            source.X = (pos.X + texture1.Width / 2);
-            source.Y = (pos.Y + texture1.Height / 2);
+            source.X = (pos.X + Player_Manager.texture_width / 2);
+            source.Y = (pos.Y + Player_Manager.texture_heigth / 2);
 
             Vector2 target = new Vector2();
             target.X = state.X - source.X;
