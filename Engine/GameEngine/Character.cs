@@ -19,7 +19,7 @@ namespace GameEngine
         public Vector2 Acceleration { get { return acc; } }
 
         const float max_vel = 10.0f;
-        const float steer_force = 0.1f;
+        const float steer_force = 0.3f;
         const float approach_radius = 100.0f;
 
         public Character()
@@ -45,11 +45,27 @@ namespace GameEngine
         }
         public void check_screen_collision(int width, int height)
         {
-            //TODO: This is ugly looking stuff I TELL U WHAT
-            if (pos.X <= 0 || (pos.X + texture1.Width  >= width))
+            if (pos.X <= 0)
+            {
+                pos.X = 0;
                 vel.X *= -1;
-            if (pos.Y <= 0 || (pos.Y + texture1.Height >= height))
+            }
+            else if (pos.X + texture1.Width >= width)
+            {
+                pos.X = width - texture1.Width;
+                vel.X *= -1;
+            }
+            if (pos.Y <= 0)
+            {
+                pos.Y = 0;
                 vel.Y *= -1;
+            }
+            else if (pos.Y + texture1.Height >= height)
+            {
+                pos.Y = height - texture1.Height;
+                vel.Y *= -1;
+            }
+                
         }
         public bool check_character_collision(Character player)
         {
